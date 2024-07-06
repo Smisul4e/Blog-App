@@ -44,3 +44,13 @@ def add():
             'id': max(post['id'] for post in posts) + 1 if posts else 1,
             'author': author,
             'title': title,
+            'content': content
+        }
+        posts.append(new_post)
+        save_posts(posts)
+        return redirect(url_for('index'))
+
+    return render_template('add.html')
+
+if __name__ == '__main__':
+    app.run()
