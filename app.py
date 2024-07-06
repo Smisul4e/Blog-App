@@ -15,23 +15,16 @@ def save_posts(posts):
         json.dump(posts, file, indent=4)
 
 
-@app.route('/update/<int:post_id>', methods=['GET', 'POST'])
-def update(post_id):
+@app.route('/like/<int:id>', methods=['POST'])
+def like(id):
     posts = load_posts()
-    post = next((post for post in posts if post['id'] == post_id), None)
+    for post in posts:
+        if post['id'] == id:
+            post['likes'] = post.get('likes', 0) + 1
+            break
 
-    if post is None:
-        return "Post not found", 404
-
-    if request.method == 'POST':
-        post['author'] = request.form['author']
-        post['title'] = request.form['title']
-        post['content'] = request.form['content']
-
-        save_posts(posts)
-        return redirect(url_for('index'))
-
-    return render_template('update.html', post=post)
+    save_posts(posts)
+    return redirect(url_for('index'))
 
 
 @app.route('/')

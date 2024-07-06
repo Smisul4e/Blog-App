@@ -3,26 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>Blog Posts</title>
 </head>
 <body>
     <h1>Blog Posts</h1>
-    <div class="posts">
-        {% for post in posts %}
-            <div class="post">
-                <h2>{{ post.title }}</h2>
-                <p><strong>Author:</strong> {{ post.author }}</p>
-                <p>{{ post.content }}</p>
-                <form action="{{ url_for('delete', post_id=post.id) }}" method="post" style="display:inline;">
-                    <button type="submit">Delete</button>
-                </form>
-                <a href="{{ url_for('update', post_id=post.id) }}">
-                    <button type="button">Update</button>
-                </a>
-            </div>
-        {% endfor %}
+
+    {% for post in posts %}
+    <div>
+        <h2>{{ post['title'] }}</h2>
+        <p>Author: {{ post['author'] }}</p>
+        <p>{{ post['content'] }}</p>
+        <p>Likes: {{ post['likes'] }}</p>
+        <form action="{{ url_for('like', id=post['id']) }}" method="POST">
+            <button type="submit">Like</button>
+        </form>
+        <hr>
     </div>
+    {% endfor %}
+
     <a href="{{ url_for('add') }}">Add a New Post</a>
 </body>
 </html>
