@@ -25,12 +25,12 @@ def add_post():
     save_posts(posts)
     return jsonify(new_post), 201
 
-@app.route('/post/<int:post_id>', methods=['DELETE'])
-def delete_post(post_id):
+@app.route('/delete/<int:post_id>', methods=['POST'])
+def delete(post_id):
     posts = load_posts()
     posts = [post for post in posts if post['id'] != post_id]
     save_posts(posts)
-    return '', 204
+    return redirect(url_for('index'))
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
